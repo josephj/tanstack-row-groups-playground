@@ -1,4 +1,12 @@
-const data = [
+type Invoice = {
+  clientName: string;
+  invoiceNumber: string;
+  date: string;
+  amount: number;
+  status: string;
+};
+
+export const data: Invoice[] = [
   {
     clientName: 'Acme Corp',
     invoiceNumber: 'INV-001',
@@ -49,5 +57,3 @@ const data = [
     status: 'Overdue',
   },
 ];
-
-export default data;

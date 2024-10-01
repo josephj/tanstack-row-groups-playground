@@ -5,10 +5,11 @@ import {
   getGroupedRowModel,
   getExpandedRowModel,
   flexRender,
-  ColumnDef,
   Row,
 } from '@tanstack/react-table';
-import data from './data';
+// @ts-ignore
+import { data } from './data';
+import { columns } from './columns';
 
 interface Invoice {
   clientName: string;
@@ -17,49 +18,6 @@ interface Invoice {
   amount: number;
   status: string;
 }
-
-const columns: ColumnDef<Invoice>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <input
-        type="checkbox"
-        checked={table.getIsAllRowsSelected()}
-        onChange={table.getToggleAllRowsSelectedHandler()}
-      />
-    ),
-    cell: ({ row }) => (
-      <input
-        type="checkbox"
-        checked={row.getIsSelected()}
-        onChange={row.getToggleSelectedHandler()}
-        disabled={row.getIsGrouped()}
-      />
-    ),
-  },
-  {
-    accessorKey: 'clientName',
-    header: 'Client Name',
-    enableGrouping: true,
-  },
-  {
-    accessorKey: 'invoiceNumber',
-    header: 'Invoice Number',
-  },
-  {
-    accessorKey: 'date',
-    header: 'Date',
-  },
-  {
-    accessorKey: 'amount',
-    header: 'Amount',
-    cell: ({ getValue }) => `$${(getValue() as number).toFixed(2)}`,
-  },
-  {
-    accessorKey: 'status',
-    header: 'Status',
-  },
-];
 
 function Table() {
   const [grouping, setGrouping] = React.useState<string[]>(['clientName']);
@@ -101,19 +59,6 @@ function Table() {
                         header.column.columnDef.header,
                         header.getContext()
                       )}
-                      {header.column.getCanGroup() && (
-                        <button
-                          onClick={header.column.getToggleGroupingHandler()}
-                          style={{
-                            cursor: 'pointer',
-                            marginLeft: '5px',
-                          }}
-                        >
-                          {header.column.getIsGrouped()
-                            ? `🛑(${header.column.getGroupedIndex()})`
-                            : `👊`}
-                        </button>
-                      )}
                     </div>
                   )}
                 </th>
@@ -132,20 +77,13 @@ function Table() {
                       border: '1px solid #ddd',
                       padding: '8px',
                       textAlign: 'left',
+                      cursor: 'pointer',
                     }}
+                    onClick={row.getToggleExpandedHandler()}
                   >
-                    <button
-                      onClick={row.getToggleExpandedHandler()}
-                      style={{
-                        cursor: 'pointer',
-                        marginRight: '5px',
-                        background: 'none',
-                        border: 'none',
-                        fontSize: '1.2em',
-                      }}
-                    >
-                      {row.getIsExpanded() ? '▲' : '▶'}
-                    </button>
+                    <span style={{ marginRight: '5px' }}>
+                      {row.getIsExpanded() ? '▼' : '▶'}
+                    </span>
                     <strong>{row.groupingValue as string}</strong> (
                     {row.subRows.length} invoices)
                   </td>

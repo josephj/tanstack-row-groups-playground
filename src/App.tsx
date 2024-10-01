@@ -1,7 +1,7 @@
-import React from "react";
-import Table from "./Table";
+import React from 'react';
+import Table from './Table';
 
-import "./styles.css";
+import './styles.css';
 
 export default function App() {
   return (
