@@ -81,6 +81,13 @@ function Table() {
                     }}
                     onClick={row.getToggleExpandedHandler()}
                   >
+                    <input
+                      type="checkbox"
+                      checked={row.getIsSelected()}
+                      onChange={row.getToggleSelectedHandler()}
+                      onClick={(e) => e.stopPropagation()}
+                      style={{ marginRight: '5px' }}
+                    />
                     <span style={{ marginRight: '5px' }}>
                       {row.getIsExpanded() ? '▼' : '▶'}
                     </span>
@@ -92,22 +99,14 @@ function Table() {
             }
             return (
               <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => {
-                  if (cell.column.id === 'clientName') {
-                    return null; // Hide the client name column in sub-rows
-                  }
-                  return (
-                    <td
-                      key={cell.id}
-                      style={{ border: '1px solid #ddd', padding: '8px' }}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  );
-                })}
+                {row.getVisibleCells().map((cell) => (
+                  <td
+                    key={cell.id}
+                    style={{ border: '1px solid #ddd', padding: '8px' }}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
               </tr>
             );
           })}
