@@ -1,13 +1,13 @@
 import React from 'react';
+import { ChakraProvider } from '@chakra-ui/react';
 import Table from './Table';
 
-import './styles.css';
-
-export default function App() {
+function App() {
   return (
-    <div className="App">
-      <h1>Table Grouping</h1>
+    <ChakraProvider>
       <Table />
-    </div>
+    </ChakraProvider>
   );
 }
+
+export default App;
